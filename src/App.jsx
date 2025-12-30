@@ -7,6 +7,9 @@ import Services from './pages/Services';
 import Projects from './pages/Projects';
 import Careers from './pages/Careers';
 import Contact from './pages/Contact';
+import Pricing from './pages/Pricing';
+import Success from './pages/Success';
+import Cancel from './pages/Cancel';
 
 import ScrollProgress from './components/ui/ScrollProgress';
 
@@ -22,6 +25,9 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/cancel" element={<Cancel />} />
         </Routes>
       </Layout>
     </Router>
