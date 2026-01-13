@@ -1,5 +1,6 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { Check, Info } from "lucide-react";
+import api from "../api/axios";
 
 // Initialize Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -62,20 +63,14 @@ const plans = [
 const Pricing = () => {
   const handleCheckout = async (plan) => {
     try {
-      const response = await fetch("/api/payment/create-checkout-session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          planName: plan.name,
-          price: plan.price,
-          description: plan.description,
-          features: plan.features,
-        }),
+      const response = await api.post("/api/payment/create-checkout-session", {
+        planName: plan.name,
+        price: plan.price,
+        description: plan.description,
+        features: plan.features,
       });
 
-      const data = await response.json();
+      const data = response.data;
 
       if (data.url) {
         window.location.href = data.url;
@@ -110,8 +105,8 @@ const Pricing = () => {
             <div
               key={plan.name}
               className={`relative bg-white rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl border-2 ${plan.isPopular
-                  ? "border-primary-500 scale-105 z-10"
-                  : "border-transparent"
+                ? "border-primary-500 scale-105 z-10"
+                : "border-transparent"
                 }`}
             >
               {plan.isPopular && (
@@ -151,8 +146,8 @@ const Pricing = () => {
                 <button
                   onClick={() => handleCheckout(plan)}
                   className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] ${plan.isPopular
-                      ? "bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-200"
-                      : "bg-gray-100 text-gray-900 hover:bg-gray-200"
+                    ? "bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-200"
+                    : "bg-gray-100 text-gray-900 hover:bg-gray-200"
                     }`}
                 >
                   {plan.buttonText}

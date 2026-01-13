@@ -5,9 +5,15 @@ services:
     rootDir: backend
     buildCommand: npm install
     startCommand: node server.js
+    plan: free
     envVars:
       - key: NODE_VERSION
         value: 20.11.0
       - key: PORT
         value: 10000
-    plan: free
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: MONGO_URI
+        sync: false
