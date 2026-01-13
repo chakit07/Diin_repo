@@ -13,8 +13,16 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+// Allow both with and without trailing slash to prevent CORS "slashed" origin mismatch errors
+const allowedOrigins = [
+  clientUrl,
+  clientUrl.replace(/\/$/, ""), // Remove slash if present
+  clientUrl.replace(/\/$/, "") + "/" // Add slash if missing
+];
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  origin: allowedOrigins,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
